@@ -38,25 +38,43 @@ let huskyGames2016 = [
 //UW's opponent (whether or not that was the home team!)
 //You can test this by passing in an individual element from the array.
 
+function extractOpponent(game) {
+  if (game.home === "UW") {
+    return game.opponent;
+  } else {
+    return game.home;
+  }
+}
 
 //Use the `map()` method and your `extractOpponent()` function to create an array
 //of UW's opponents for the season (in the same order as in the `huskyGames2016`).
 //The opponents in the list do not need to be unique.
 //Log out the opponents array.
+let opponents = huskyGames2016.map(extractOpponent);
+console.log(opponents);
 
 
 //Define a function `huskiesLost()` that takes in a "game" object and returns
 //whether or not UW lost.
 
+function huskiesLost(game) {
+  if (game.home === "UW") {
+    return game.home_score < game.opponent_score;
+  } else {
+    return game.opponent_score < game.home_score;
+  }
+}
 
 //Use the `filter()` method to create an array of games that UW lost (a smaller
 //array than the games they won!)
 //Log out the array of lost games.
-
+let lostGames = huskyGames2016.filter(huskiesLost);
+console.log(lostGames);
 
 //Log out an array of opponents that UW lost to. Hint: Use the `.map()` method 
 //to extract the opponent names!
-
+let lostOpponents = lostGames.map(extractOpponent);
+console.log(lostOpponents);
 
 //Use a `forEach()` loop to log out each of the games UW lost, each on its own 
 //line, in the following format:
@@ -68,6 +86,10 @@ let huskyGames2016 = [
 //of games where UW had at least one fumble.
 //Log out HOW MANY games included fumbles.
 
+let fumble = huskyGames2016.filter(function(game) {
+  return game.fumbles > 0;
+});
+console.log(fumble.length);
 
 //Define a function `mostYardsPassing()` that takes in two "game" objects and
 //returns the game that has a greater number of passing yards.
@@ -84,6 +106,19 @@ let huskyGames2016 = [
 //
 //Log out the game with the most passing yards.
 
+function mostYardsPassing(game1, game2) {
+  if (!game1.passing_yards) {
+    return game2;
+  }
+
+  if (!game2.passing_yards > game1.passing_yards) {
+    return game1;
+  } else {
+    return game2;
+  }
+}
+ let mostPassing = huskyGames2016.reduce(mostYardsPassing, {});
+ console.log(mostPassing);
 
 
 //It would be useful to be able to apply multiple "filter criteria" to an array
